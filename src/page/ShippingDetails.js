@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import {
   addDoc,
   collection,
@@ -10,6 +10,8 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
+import Swal from 'sweetalert2';
+
 import { async } from "@firebase/util";
 // import Loader from "../Component/loader/Loader";
 // import TopInfo from "../Component/Nav/TopInfo";
@@ -18,6 +20,9 @@ import NavBar from "../Component/Nav/NavBar";
 // import Footer from "../Component/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../Component/loader/Loader";
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function ShippingDetails() {
   const [products, setProducts] = useState([]);
@@ -30,11 +35,30 @@ export default function ShippingDetails() {
     out_for_delivery: "",
     delivered: "",
   });
-  console.log("kk",newProduct);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  const navigate=useNavigate();
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoading(false);
+      if (user) {
+        setAuthenticated(true);
+      } else {
+        setAuthenticated(false);
+        navigate('/login');
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
+  console.log("kk",authenticated);
   const [editProduct,setEditProduct]=useState('');
   const [isEdit,setIsEdit]=useState(false);
+  const[loading,setLoading]=useState(false);
   const addData = async () => {
     try {
+      setLoading(true);
       // Add new product to Firestore
       const docRef = await addDoc(collection(db, "products"), {
         ...newProduct,
@@ -55,7 +79,10 @@ export default function ShippingDetails() {
           ? new Date(newProduct.delivered)
           : null,
       });
-  
+      Swal.fire({
+        icon: 'success',
+        title: 'Data Added',
+      });
       console.log("Product added with ID: ", docRef.id);
   
       // Clear the form after adding the product
@@ -73,6 +100,8 @@ export default function ShippingDetails() {
       getProducts();
     } catch (error) {
       console.error("Error adding product:", error);
+    }finally{
+      setLoading(false);
     }
   };
   
@@ -124,6 +153,7 @@ export default function ShippingDetails() {
   }
   const updateData = async () => {
     try {
+      setLoading(true);
       const productDoc = doc(db, "products", editProduct.id);
       await updateDoc(productDoc, {
         product_name: editProduct.product_name,
@@ -134,13 +164,24 @@ export default function ShippingDetails() {
         out_for_delivery: editProduct.out_for_delivery,
         delivered: editProduct.delivered,
       });
-  
+      // setLoading(false);
       // Clear the edit state and fetch updated products list
       setEditProduct('');
+      setNewProduct({
+        product_name: "",
+        tracking_id: "",
+        shipment_booked: "",
+        shipment_forwarded: "",
+        waiting_for_clearance: "",
+        out_for_delivery: "",
+        delivered: "",
+      });
       getProducts();
     } catch (error) {
       console.error("Error updating product:", error);
-    }
+    }finally{{ 
+      setLoading(false);
+     }}
   };
   const deleteData = async (id) => {
     try {
@@ -160,10 +201,10 @@ export default function ShippingDetails() {
   };
   
   return (
-<div className="container ">
+<div className="container" style={{ height:'auto' }}>
       {/* <Loader/> */}
       {/* <TopInfo /> */}
-      <NavBar />
+      <NavBar authenticated={authenticated} />
       {/* <Header/> */}
       <label htmlFor="productName"className="text-white">Name:</label>
  <input
@@ -419,7 +460,7 @@ export default function ShippingDetails() {
     </tbody>
   </table>
 </div>
-
+{loading && <Loader />}
     </div>
   );
 }

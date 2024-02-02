@@ -1,7 +1,7 @@
 import React from "react";
 // import Footer from "./;
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./Component/Header";
 import Loader from "./Component/loader/Loader";
 import NavBar from "./Component/Nav/NavBar";
@@ -12,17 +12,26 @@ import Footer from "./Component/Footer"
 import Contact from "./Component/pages/contact/Contact"
 import Info from "./Component/Info"
 import Service from "./Component/pages/services/Service"
+import Login from "./page/Login";
+import Register from "./page/Register";
+import PrivateRoute from "./middleware/PrivateRoute";
 
 export default function App() {
   return (
     <div className="header-area">
       <div className="main-header">
-        <BrowserRouter >
+        <Router >
           <Routes>
-            <Route path="/shippingdetails" element={<ShippingDetails />}  />
             <Route path="/" element={<HomePage />} />
+            {/* <Route path="/shippingdetails" element={<ShippingDetails />}  /> */}
+            {/* <Route path="/shippingdetails" element={<PrivateRoute component={ShippingDetails} />} /> */}
+             <Route path="/shippingdetails" element={<PrivateRoute component={ShippingDetails} />} />
+
+
+            <Route path="/login" element={<Login/>}/>
+            {/* <Route path="/register" element={<Register/>}/> */}
           </Routes>
-        </BrowserRouter>
+        </Router>
       </div>
     </div>
   );
@@ -31,7 +40,7 @@ export default function App() {
 function HomePage() {
   return (
     <>
-      <Loader />
+      {/* <Loader /> */}
       <TopInfo />
       <NavBar />
       <Header />
