@@ -12,8 +12,8 @@ export default function About() {
                         <span>About Our Company</span>
                         <h2>Safe Logistic & Transport  Solutions That Saves our Valuable Time!</h2>
                     </div>
-                    <p>Brook presents your services with flexible, convenient and cdpose layouts. You can select your favorite layouts & elements for cular ts with unlimited ustomization possibilities. Pixel-perfect replication of the designers is intended.</p>
-                    <p>Brook presents your services with flexible, convefnient and chient anipurpose layouts. You can select your favorite layouts.</p>
+                    <p>Shas Express Logistics & Cargo is a company that provides safe and efficient logistics and transport solutions. We have a wide range of services to meet your needs, including land, sea, and air transport. We are committed to providing our customers with the highest quality service at the most competitive prices.</p>
+                    <p>Our team of experienced professionals is dedicated to providing you with the best possible service. We understand that your time is valuable, so we will work hard to get your shipments delivered on time and on budget. We are also committed to safety, so you can rest assured that your cargo is in good hands.</p>
                     <a href="about.html" className="btn">More About Us</a>
                 </div>
             </div>

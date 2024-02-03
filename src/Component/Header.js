@@ -1,52 +1,60 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { db } from "../config/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import Loader from "./loader/Loader";
 
 export default function Header() {
   const [searchValue, setSearchValue] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [productsData, setProductsData] = useState([]);
-  console.log("ll",searchValue);
-
+  const [loading, setLoading] = useState(false);
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (searchValue === "") {
+    const trimmedSearchValue = searchValue.trim();
+    if (trimmedSearchValue === "") {
       setShowModal(false);
-      return; // Exit the function early
+      return;
     }
     try {
+      setLoading(true);
       const querySnapshot = await getDocs(
-        query(collection(db, 'products'), where('tracking_id', '==', searchValue))
+        query(
+          collection(db, "products"),
+          where("tracking_id", "==", trimmedSearchValue)
+        )
       );
-  
+      setLoading(false);
       if (!querySnapshot.empty) {
         // Data found for the given tracking ID
         const data = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        
+
         setProductsData(data); // Update state with the retrieved data
         setShowModal(true);
-  
+
         const firstProduct = data[0];
-        console.log('Raw date from Firebase:', firstProduct.shipment_booked);
-        console.log('Formatted date:', firstProduct.shipment_booked?.toDate().toLocaleString());
-  
-        console.log('Tracking ID related data:', data);
+        console.log("Raw date from Firebase:", firstProduct.shipment_booked);
+        console.log(
+          "Formatted date:",
+          firstProduct.shipment_booked?.toDate().toLocaleString()
+        );
+
+        console.log("Tracking ID related data:", data);
       } else {
         // No data found for the given tracking ID
         setShowModal(false);
-        console.log('No data found for the tracking ID:', searchValue);
+        console.log("No data found for the tracking ID:", searchValue);
       }
     } catch (error) {
-      console.error('Error fetching tracking details:', error);
+      console.error("Error fetching tracking details:", error);
     }
   };
-  
+
   return (
     <div className="slider-area ">
       <div className="slider-active">
@@ -78,18 +86,17 @@ export default function Header() {
                 </div>
 
                 {showModal && (
-        <Modal productsData={productsData} onClose={() => setShowModal(false)} />
-      )}
+                  <Modal
+                    productsData={productsData}
+                    onClose={() => setShowModal(false)}
+                  />
+                )}
               </div>
             </div>
-
-           
-    
-
           </div>
         </div>
       </div>
-
+      {loading&&<Loader/>}
     </div>
   );
 }

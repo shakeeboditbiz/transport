@@ -12,7 +12,7 @@ export default function Info() {
                     </div>
                     <div className="info-caption">
                         <p>Call Us Anytime</p>
-                        <span>+ (123) 1800-567-8990</span>
+                        <span>+91 77367 13153</span>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@ export default function Info() {
                     </div>
                     <div className="info-caption">
                         <p>Sunday CLOSED</p>
-                        <span>Mon - Sat 8.00 - 18.00</span>
+                        <span>Mon - Sat 9.00 AM - 6.00 PM</span>
                     </div>
                 </div>
             </div>
@@ -33,8 +33,8 @@ export default function Info() {
                         <span className="flaticon-place"></span>
                     </div>
                     <div className="info-caption">
-                        <p>Columbia, SC 29201</p>
-                        <span>USA, New York - 10620</span>
+                        <p>Martin Eva Holy Tuesday Shopping Mall Kaloor, Cochin - 682017</p>
+                        <span>Door no 44/2214 A 14</span>
                     </div>
                 </div>
             </div>

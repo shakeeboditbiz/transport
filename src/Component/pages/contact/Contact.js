@@ -88,8 +88,8 @@ export default function Contact() {
                   <i className="ti-home"></i>
                 </span>
                 <div className="media-body">
-                  <h3>Buttonwood, California.</h3>
-                  <p>Rosemead, CA 91770</p>
+                  <h3>Martin Eva Holy Tuesday Shopping Mall Kaloor, Cochin - 682017</h3>
+                  <p>Door no 44/2214 A 14</p>
                 </div>
               </div>
               <div className="media contact-info">
@@ -97,8 +97,8 @@ export default function Contact() {
                   <i className="ti-tablet"></i>
                 </span>
                 <div className="media-body">
-                  <h3>+1 253 565 2365</h3>
-                  <p>Mon to Fri 9am to 6pm</p>
+                  <h3>+91 96333 99676</h3>
+                  <p>Mon to Sat 9am to 6pm</p>
                 </div>
               </div>
               <div className="media contact-info">
@@ -106,7 +106,7 @@ export default function Contact() {
                   <i className="ti-email"></i>
                 </span>
                 <div className="media-body">
-                  <h3>support@colorlib.com</h3>
+                  <h3>info@shasexpress.com</h3>
                   <p>Send us your query anytime!</p>
                 </div>
               </div>
